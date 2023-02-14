@@ -1,52 +1,49 @@
 Vue.component('product', {
     template: `
     <div class="product">
-    <div class="product-image">
-       <img v-bind:src="image" v-bind:alt="altText" />
-    </div>
-    <div class="product-info">
-       <h1>{{ title }}</h1>  
-       <p>{{ description }}</p>
-   <a href="https://www.amazon.com/s/ref=nb_sb_noss?url=search-alias%3Daps&field-keywords=socks">{{link}}</a>
-        <p v-if="inventory > 10">In stock</p>
-       <p v-else-if="inventory <= 10 && inventory > 0">Almost sold out!</p>
+    
+        <div class="product-image">
+            <img v-bind:src="image" v-bind:alt="altText" />
+        </div>
+    
+        <div class="product-info">
+            <h1>{{ title }}</h1>  
+                <p>{{ description }}</p>
+                    <a href="https://www.amazon.com/s/ref=nb_sb_noss?url=search-alias%3Daps&field-keywords=socks">{{link}}</a>
+                <p v-if="inventory > 10">In stock</p>
+                <p v-else-if="inventory <= 10 && inventory > 0">Almost sold out!</p>
            
-       <p :class="{ outOfStock: !inStock }"
-        v-else 
-           >    Out of stock</p>
-       <span><p>{{OnSale}}</p>  </span>
+                <p :class="{ outOfStock: !inStock }" v-else > Out of stock </p>
+       <span>
+                <p>{{OnSale}}</p>  
+       </span>
+       
        <ul>
            <li v-for="detail in details">{{ detail }}</li>
-        </ul>
+       </ul>
             
        <ul>
            <li v-for="size in sizes">{{ size }}</li>
        </ul>
          
        
-       <div
-       class="color-box"
-       v-for="(variant, index) in variants"
-       :key="variant.variantId"
-       :style="{ backgroundColor:variant.variantColor }"
-       @mouseover="updateProduct(index)">
+       <div class="color-box" v-for="(variant, index) in variants" :key="variant.variantId" :style="{ backgroundColor:variant.variantColor }" @mouseover="updateProduct(index)">
+       
        </div>
+    
        <div class="cart">
-           <p>Cart({{ cart }})</p>
-           
-           <button v-on:click="cart -= 1">Delete from cart</button>
-    </div>
-    <p>Shipping: {{ shipping }}</p>
-        <button v-on:click="addToCart"
-        :disabled="!inStock"
-        :class="{ disabledButton: !inStock }">Add to cart</button> 
-        
-    </div>
+                <p>Cart({{ cart }})</p>
+        <button v-on:click="cart -= 1"> Delete from cart </button>
+    
+       </div>
+    
+                <p>Shipping: {{ shipping }}</p>
+                <button v-on:click="addToCart" :disabled="!inStock" :class="{ disabledButton: !inStock }"> Add to cart </button> 
+        </div>
        </div>
         
     </div>
-</div> 
-  `,
+</div> `,
     data() {
         return {
             product: "Socks",
@@ -79,7 +76,7 @@ Vue.component('product', {
     
                 }
              ],
-            cart:0,        }
+            cart:0,}
     },
         methods: {
             addToCart() {
@@ -131,12 +128,23 @@ Vue.component('product', {
  })
  Vue.component('product-details', {
     template: `{{ detail }}`, 
-    data() {
-    return {
-    details: ['80% cotton', '20% polyester', 'Gender-neutral'],
-    }
+        data() {
+        return {
+            details: ['80% cotton', '20% polyester', 'Gender-neutral'],
+               }
     }
     })
+    Vue.component('product-review', {
+        template: `
+        <input>
+      `,
+        data() {
+            return {
+                name: null
+            }
+        }
+     })
+     
 
  
 
