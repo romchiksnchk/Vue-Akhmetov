@@ -2,20 +2,20 @@ Vue.component('product', {
     template: `
     <div class="product">
     
-        <div class="product-image">
-            <img v-bind:src="image" v-bind:alt="altText" />
-        </div>
+    <div class="product-image">
+        <img v-bind:src="image" v-bind:alt="altText" />
+    </div>
     
-        <div class="product-info">
-            <h1>{{ title }}</h1>  
-                <p>{{ description }}</p>
-                    <a href="https://www.amazon.com/s/ref=nb_sb_noss?url=search-alias%3Daps&field-keywords=socks">{{link}}</a>
-                <p v-if="inventory > 10">In stock</p>
-                <p v-else-if="inventory <= 10 && inventory > 0">Almost sold out!</p>
+    <div class="product-info">
+        <h1>{{ title }}</h1>  
+            <p>{{ description }}</p>
+                <a href="https://www.amazon.com/s/ref=nb_sb_noss?url=search-alias%3Daps&field-keywords=socks">{{link}}</a>
+            <p v-if="inventory > 10">In stock</p>
+            <p v-else-if="inventory <= 10 && inventory > 0">Almost sold out!</p>
            
-                <p :class="{ outOfStock: !inStock }" v-else > Out of stock </p>
+            <p :class="{ outOfStock: !inStock }" v-else > Out of stock </p>
        <span>
-                <p>{{OnSale}}</p>  
+            <p>{{OnSale}}</p>  
        </span>
        
        <ul>
@@ -39,6 +39,7 @@ Vue.component('product', {
     
                 <p>Shipping: {{ shipping }}</p>
                 <button v-on:click="addToCart" :disabled="!inStock" :class="{ disabledButton: !inStock }"> Add to cart </button> 
+                
         </div>
        </div>
         
@@ -93,8 +94,24 @@ Vue.component('product', {
              updateCart(id) {
                 this.cart.push(id);
                 this.cart += 1;
-             }
-        },  
+             },
+             onSubmit() {
+                let productReview = {
+                name: this.name,
+                review: this.review,
+                rating: this.rating     
+            }
+              this.$emit('review-submitted', productReview)
+              this.name = null
+              this.review = null
+              this.rating = null
+            
+            
+            },
+            addReview(productReview) {
+                this.reviews.push(productReview)
+             }, 
+        },
         computed: {
         title() {
             return this.brand + ' ' + this.product;
@@ -115,7 +132,6 @@ Vue.component('product', {
                 return 2.99
             }
          }
-           
       }
  })
  
@@ -144,11 +160,3 @@ Vue.component('product', {
             }
         }
      })
-     
-
- 
-
- 
- 
-
- 
