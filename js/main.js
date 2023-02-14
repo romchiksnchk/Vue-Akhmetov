@@ -51,6 +51,7 @@ Vue.component('product', {
         return {
             product: "Socks",
             brand: "Vue Mastery",
+            cart:[],
             premium:true,
             description:"A pair of warm, fuzzy socks",
             selectedVariant: 0,
@@ -83,6 +84,7 @@ Vue.component('product', {
         methods: {
             addToCart() {
                 this.cart += 1
+                this.$emit('add-to-cart');
             },
             deleteToCart() {
                 this.cart -= 1
@@ -93,6 +95,7 @@ Vue.component('product', {
              },
              updateCart(id) {
                 this.cart.push(id);
+                this.cart += 1;
              }
         },  
         computed: {
@@ -122,11 +125,19 @@ Vue.component('product', {
  let app = new Vue({
     el: '#app',
     data: {
-        premium: true
+        premium: true,
+        cart:0
     }
  })
- 
- 
+ Vue.component('product-details', {
+    template: `{{ detail }}`, 
+    data() {
+    return {
+    details: ['80% cotton', '20% polyester', 'Gender-neutral'],
+    }
+    }
+    })
+
  
 
  

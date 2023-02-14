@@ -8,11 +8,15 @@
    <script defer src="js/vue.js"></script>
    <script defer src="js/main.js"></script>
    <link rel="stylesheet" href="css/main.css">
-   <title>Product App</title>
+   <title>vue</title>
 </head>
 <body>
-    <div id="app">
-        <product :premium="premium"></product>
+    <div id="app">  
+        <div class="cart">
+            <p>Cart({{ cart }})</p>
+        </div>
+        <product :premium="premium" @add-to-cart="updateCart"></product>
+
     </div>
 </body>
 </html>
