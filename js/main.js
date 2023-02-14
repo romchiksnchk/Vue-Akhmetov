@@ -33,6 +33,7 @@ Vue.component('product', {
        </div>
        <div class="cart">
            <p>Cart({{ cart }})</p>
+           
            <button v-on:click="cart -= 1">Delete from cart</button>
     </div>
     <p>Shipping: {{ shipping }}</p>
@@ -90,8 +91,11 @@ Vue.component('product', {
                 this.selectedVariant = index;
                 console.log(index);
              },
+             updateCart(id) {
+                this.cart.push(id);
+             }
         },  
-    computed: {
+        computed: {
         title() {
             return this.brand + ' ' + this.product;
         },
