@@ -37,9 +37,37 @@ Vue.component('product', {
     
        </div>
     
-                <p>Shipping: {{ shipping }}</p>
-                <button v-on:click="addToCart" :disabled="!inStock" :class="{ disabledButton: !inStock }"> Add to cart </button> 
-                
+        <p>Shipping: {{ shipping }}</p>
+        <button v-on:click="addToCart" :disabled="!inStock" :class="{ disabledButton: !inStock }"> Add to cart </button> 
+
+            <form class="review-form" @submit.prevent="onSubmit">
+ <p>
+   <label for="name">Name:</label>
+   <input id="name" v-model="name" placeholder="name">
+ </p>
+
+ <p>
+   <label for="review">Review:</label>
+   <textarea id="review" v-model="review"></textarea>
+ </p>
+
+ <p>
+   <label for="rating">Rating:</label>
+   <select id="rating" v-model.number="rating">
+     <option>5</option>
+     <option>4</option>
+     <option>3</option>
+     <option>2</option>
+     <option>1</option>
+   </select>
+ </p>
+
+ <p>
+   <input type="submit" value="Submit"> 
+ </p>
+
+</form>
+
         </div>
        </div>
         
@@ -49,14 +77,17 @@ Vue.component('product', {
         return {
             product: "Socks",
             brand: "Vue Mastery",
-            cart:[],
-            premium:true,
-            description:"A pair of warm, fuzzy socks",
+            cart: [],
+            premium: true,
+            description: "A pair of warm, fuzzy socks",
             selectedVariant: 0,
             altText: "A pair of socks",
             link: "More products like this",
             inStock: true,
             inventory: 100,
+            name: null,
+            review: null,
+            rating: null,
             onSale: "On sale!",
             details: ['80% cotton', '20% polyester', 'Gender-neutral'],
             sizes: ['S', 'M', 'L', 'XL', 'XXL', 'XXXL'],
@@ -66,53 +97,58 @@ Vue.component('product', {
                     variantColor: 'green',
                     variantImage: "./assets/vmSocks-green-onWhite.jpg",
                     variantQuantity: 100
-    
-    
+
+
                 },
                 {
                     variantId: 2235,
                     variantColor: 'blue',
                     variantImage: "./assets/vmSocks-blue-onWhite.jpg",
                     variantQuantity: 0
-    
+
                 }
-             ],
-            cart:0,}
+            ],
+            cart: 0,
+        }
     },
-        methods: {
-            addToCart() {
-                this.cart += 1
-                this.$emit('add-to-cart');
-            },
-            deleteToCart() {
-                this.cart -= 1
-            },
-            updateProduct(index) {
-                this.selectedVariant = index;
-                console.log(index);
-             },
-             updateCart(id) {
-                this.cart.push(id);
-                this.cart += 1;
-             },
-             onSubmit() {
-                let productReview = {
+    methods: {
+        
+        addToCart() {
+            this.cart += 1
+            this.$emit('add-to-cart');
+        },
+        
+        deleteToCart() {
+            this.cart -= 1
+        },
+        
+        updateProduct(index) {
+            this.selectedVariant = index;
+            console.log(index);
+        },
+        
+        updateCart(id) {
+            this.cart.push(id);
+            this.cart += 1;
+        },
+        
+        onSubmit() {
+            let productReview = {
                 name: this.name,
                 review: this.review,
-                rating: this.rating     
+                rating: this.rating
             }
-              this.$emit('review-submitted', productReview)
-              this.name = null
-              this.review = null
-              this.rating = null
-            
-            
-            },
-            addReview(productReview) {
-                this.reviews.push(productReview)
-             }, 
+            this.$emit('review-submitted', productReview)
+            this.name = null
+            this.review = null
+            this.rating = null
+        
         },
-        computed: {
+        addReview(productReview) {
+            this.reviews.push(productReview)
+        },
+    },
+    computed: {
         title() {
             return this.brand + ' ' + this.product;
         },
@@ -122,7 +158,7 @@ Vue.component('product', {
         image() {
             return this.variants[this.selectedVariant].variantImage;
         },
-        inStock(){
+        inStock() {
             return this.variants[this.selectedVariant].variantQuantity
         },
         shipping() {
@@ -131,32 +167,32 @@ Vue.component('product', {
             } else {
                 return 2.99
             }
-         }
-      }
- })
- 
- let app = new Vue({
+        }
+    }
+})
+
+let app = new Vue({
     el: '#app',
     data: {
         premium: true,
-        cart:0
+        cart: 0
     }
- })
- Vue.component('product-details', {
-    template: `{{ detail }}`, 
-        data() {
+})
+Vue.component('product-details', {
+    template: `{{ detail }}`,
+    data() {
         return {
             details: ['80% cotton', '20% polyester', 'Gender-neutral'],
-               }
+        }
     }
-    })
-    Vue.component('product-review', {
-        template: `
+})
+Vue.component('product-review', {
+    template: `
         <input>
       `,
-        data() {
-            return {
-                name: null
-            }
+    data() {
+        return {
+            name: null
         }
-     })
+    }
+})
